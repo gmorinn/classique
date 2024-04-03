@@ -21,29 +21,29 @@ public class Panel : MonoBehaviour
     public System.Action<Room, int, float> callback;
 
 
-    // code pad where the digit is drawn onto
+    
     Texture2D drawableTexture;
-    const int imageWidth = 28; //width and height of input image
+    const int imageWidth = 28; 
     float[] imageData = new float[imageWidth * imageWidth];
-    byte[] zeroes = new byte[imageWidth * imageWidth * 3]; // blank screen
-    Vector3 lastCoord; // last position of mouse on screen
+    byte[] zeroes = new byte[imageWidth * imageWidth * 3]; 
+    Vector3 lastCoord; 
 
-    // digit recognition
+    
     int predictedNumber;
     float probability;
 
     float timeOfLastEntry = float.MaxValue;
-    float clearTime = 0.5f; // time digit is on screen before it is cleared
+    float clearTime = 0.5f; 
     Camera lookCamera;
 
-    // alarm state
+    
     enum STATE { NORMAL, ALARM };
     STATE state = STATE.NORMAL;
     float startTimeOfState = 0;
-    float alarmPeriod = 2f; // number of seconds for alarm
+    float alarmPeriod = 2f; 
     Color originalLightColor;
 
-    // room state
+    
     Room room;
 
 
@@ -51,14 +51,14 @@ public class Panel : MonoBehaviour
     {
         lookCamera = Camera.main;
 
-        // code pad texture which will be drawn into:
+        
         drawableTexture = new Texture2D(imageWidth, imageWidth, TextureFormat.RGB24, false);
         drawableTexture.wrapMode = TextureWrapMode.Clamp;
         drawableTexture.filterMode = FilterMode.Point;
 
         ClearTexture();
 
-        // emission map for glowing digits
+        
         screen.GetComponent<Renderer>().material.SetTexture("_EmissionMap", drawableTexture);
 
         room = GetComponent<Room>();
@@ -80,7 +80,7 @@ public class Panel : MonoBehaviour
         drawableTexture.Apply();
     }
 
-    // Calls the neural network to get the probabilities of different digits then selects the most likely
+    
     void Infer()
     {
         var probabilityAndIndex = mnist.GetMostLikelyDigitProbability(drawableTexture);
@@ -91,7 +91,7 @@ public class Panel : MonoBehaviour
         if (probabilityText) probabilityText.text = Mathf.Floor(probability * 100) + "%";
     }
 
-    // Draws a line on the panel by simply drawing a sequence of pixels
+    
     void DrawLine(Vector3 startp, Vector3 endp)
     {
         int steps = (int)((endp - startp).magnitude * 2 + 1); 
@@ -102,10 +102,10 @@ public class Panel : MonoBehaviour
         }
     }
 
-    // Draws either a single pixel or a 2x2 pixel for a thicker line
+    
     void DrawPoint(Vector3 coord, int thickness, Color color)
     {
-        //clamp the values so it doesn't touch the border
+        
         float x = Mathf.Clamp(coord.x, thickness, imageWidth - thickness);
         float y = Mathf.Clamp(coord.y, thickness, imageWidth - thickness);
 
@@ -153,7 +153,7 @@ public class Panel : MonoBehaviour
         drawableTexture.Apply();
 
         timeOfLastEntry = Time.time;
-        // Run the inference every frame since it is very fast
+        
         Infer();
     }
 
@@ -172,7 +172,7 @@ public class Panel : MonoBehaviour
             }
         }
 
-        // After a certain time we want to clear the panel:
+        
         if ((Time.time - timeOfLastEntry) > clearTime)
         {
             if (callback != null) callback(room, predictedNumber, probability);

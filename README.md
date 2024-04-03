@@ -22,8 +22,3 @@ After running inference we get the most likely digit.
 We use this to feedback into the gameplay loop
 
 ![image info](./Documentation/runtime-inference.png)
-
-
-##  Video Tutorial
-
-[![IMAGE ALT TEXT HERE](../Documentation/video-image.png)](https://www.youtube.com/watch?v=IofX0CAYdmU)

@@ -22,12 +22,12 @@ public class Game : MonoBehaviour
 
     Room currentRoom;
     CharacterController controller;
-    float speed = 4; //walking speed
-    float gravity = 0; //current falling speed due to gravity
+    float speed = 4; 
+    float gravity = 0; 
 
     public static Game instance;
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         instance = this;
@@ -43,17 +43,17 @@ public class Game : MonoBehaviour
     }
 
 
-    //This is called from the panel once a digit has been entered. It gives the predicted number and the probability:
+    
     void GotNumber(Room room, int n, float probability)
     {
         GetComponent<AudioSource>().PlayOneShot(numbers[n]);
         Debug.Log("Predicted number " + n + "\nProbability " + (probability * 100) + "%");
 
-        //now we need to check if this code is correct:
+        
         (bool correct, bool completed) = room.CheckCode(n);
         if (!correct)
         {
-            //The guess is not correct so sound the alarm:
+            
             currentRoom = room;
             Invoke("SoundAlarm", 0.5f);
         }
@@ -68,7 +68,7 @@ public class Game : MonoBehaviour
         }
     }
 
-    //Sound the alarm and reset the code to something else:
+    
     void SoundAlarm()
     {
         currentRoom.GetComponent<Panel>().SoundAlarm();
@@ -85,13 +85,13 @@ public class Game : MonoBehaviour
 
     void Update()
     {
-        // Player movement:
+        
         float mouseSensitivity = 1f;
         float vert = Input.GetAxis("Vertical");
         float horiz = Input.GetAxis("Horizontal");
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
 
-        if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.LeftControl)) // cheat mode open all doors! Control+C
+        if (Input.GetKeyDown(KeyCode.C) && Input.GetKey(KeyCode.LeftControl)) 
         {
             for (int i = 0; i < rooms.Length; i++)
                 rooms[i].OpenDoor();
@@ -109,7 +109,7 @@ public class Game : MonoBehaviour
             controller.transform.Rotate(Vector3.up, mouseX);
         }
 
-        // This toggles between using the mouse to look and using the mouse to draw on the screen
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             switch (mode)
@@ -126,7 +126,7 @@ public class Game : MonoBehaviour
             }
         }
 
-        // Press escape to exit the game:
+        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.lockState = CursorLockMode.None;

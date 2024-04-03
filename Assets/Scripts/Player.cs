@@ -9,7 +9,7 @@ using UnityEngine;
  */
 public class Player : MonoBehaviour
 {
-    // this script pushes all rigid bodies that the character touches
+    
     float pushPower = 2.0f;
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        // We dont want to push objects below us
+        
         if (hit.moveDirection.y < -0.3)
         {
             return;
